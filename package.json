@@ -2,6 +2,7 @@
   "name": "alamx",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://pmartiner.github.io/alamx",
   "dependencies": {
     "@kennethormandy/react-fittext": "^0.6.0",
     "axios": "^0.19.0",
