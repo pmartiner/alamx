@@ -1,0 +1,25 @@
+.cart-container {
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+}
+
+.prod-cart {
+    max-height: 25vh;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
+    margin-right: 5vh;
+}
+
+.historia {
+    font-size: calc(13px + 1vh);
+}
+.cart-subtext {
+    font-size: calc(30px + 4vw);
+    margin: 0.3em 0;
+}
+
+.fab-halfway {
+    position: absolute;
+    left: 24px;
+    bottom: -20px;
+}

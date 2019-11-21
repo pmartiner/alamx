@@ -1,0 +1,138 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.ele-font {
+  font-family: 'Ibarra Real Nova', serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+.rifle-green-text {
+  color: #323f37 !important;
+}
+
+.rifle-green {
+  background-color: #3a4f41 !important;
+}
+
+.dingy-dungeon-text {
+  color: #b9314f !important;
+}
+
+.dingy-dungeon {
+  background-color: #b9314f !important;
+}
+
+.tumbleweed-text {
+  color: #d5a18e !important;
+}
+
+.tumbleweed {
+  background-color: #d5a18e !important;
+}
+
+.tea-rose-text {
+  color: #dec3be !important;
+}
+
+.tea-rose {
+  background-color: #dec3be !important;
+}
+
+.green-mex-text {
+  text-decoration: solid underline #006847 0.15em;
+}
+
+.red-mex-text {
+  text-decoration: solid underline #CE1126 0.15em;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.justify {
+  text-align: justify;
+}
+
+.fullHeight {
+  height: 100% !important;
+}
+
+.inlineBlock{
+  display: inline-block;
+}
+
+.row-separator {
+  height: 7px;
+  width: 25%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10vh;
+}
+
+.btn.rifle-green:hover, .btn.rifle-green:focus {
+  background-color: #202c24;
+}
+
+@media only screen and (max-width: 933px){
+  .valign-wrapper.valign-mob{
+      display: block;
+      margin: 5em 0;
+  }
+}
+
+@media only screen and (min-width: 601px) {
+  nav,
+  nav .nav-wrapper i,
+  nav a.sidenav-trigger,
+  nav a.sidenav-trigger i {
+    line-height:105px;
+  }
+}
+
+input:not([type]):focus:not([readonly]), input[type="text"]:not(.browser-default):focus:not([readonly]), input[type="password"]:not(.browser-default):focus:not([readonly]), input[type="email"]:not(.browser-default):focus:not([readonly]), input[type="url"]:not(.browser-default):focus:not([readonly]), input[type="time"]:not(.browser-default):focus:not([readonly]), input[type="date"]:not(.browser-default):focus:not([readonly]), input[type="datetime"]:not(.browser-default):focus:not([readonly]), input[type="datetime-local"]:not(.browser-default):focus:not([readonly]), input[type="tel"]:not(.browser-default):focus:not([readonly]), input[type="number"]:not(.browser-default):focus:not([readonly]), input[type="search"]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid #b9314f;
+  -webkit-box-shadow: 0 1px 0 0 #b9314f;
+  box-shadow: 0 1px 0 0 #b9314f;
+}
+ 
+
+input:not([type]):focus:not([readonly]) + label, input[type="text"]:not(.browser-default):focus:not([readonly]) + label, input[type="password"]:not(.browser-default):focus:not([readonly]) + label, input[type="email"]:not(.browser-default):focus:not([readonly]) + label, input[type="url"]:not(.browser-default):focus:not([readonly]) + label, input[type="time"]:not(.browser-default):focus:not([readonly]) + label, input[type="date"]:not(.browser-default):focus:not([readonly]) + label, input[type="datetime"]:not(.browser-default):focus:not([readonly]) + label, input[type="datetime-local"]:not(.browser-default):focus:not([readonly]) + label, input[type="tel"]:not(.browser-default):focus:not([readonly]) + label, input[type="number"]:not(.browser-default):focus:not([readonly]) + label, input[type="search"]:not(.browser-default):focus:not([readonly]) + label, textarea.materialize-textarea:focus:not([readonly]) + label {
+  color: #b9314f;
+}
+
+/* change colour of filled in check box */
+.check[type="checkbox"].filled-in:checked + span:not(.lever):after {
+    border: 2px solid #b9314f;  
+    background-color: #b9314f;
+}

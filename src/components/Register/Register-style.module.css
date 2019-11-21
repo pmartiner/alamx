@@ -1,0 +1,14 @@
+.register-container {
+    padding-top: 15vh;
+    padding-bottom: 10vh;
+}
+
+.register-head {
+    font-size: calc(30px + 1vw);
+    margin: 0.3em 0;
+}
+
+.register-subhead {
+    font-size: calc(18px + 1vw);
+    margin: 0.3em 0;
+}
