@@ -4,7 +4,11 @@ import styles from './Register-style.module.css';
 
 const registerView = props => {
     if(props.hasErrors)
-        alert("Faltan campos por llenar")
+        alert("Faltan campos por llenar.")
+    if(props.invalidData)
+        alert("Datos inválidos.")
+    if(props.emailExists)
+        alert("El correo introducido ya existe.")
     return(
        <main>
            <section className={`white ${styles["register-container"]}`}>
@@ -15,7 +19,7 @@ const registerView = props => {
                         <h2 className={`rifle-green-text ${styles["register-subhead"]}`}>Sobre ti</h2>
                         <div className="row">
                             <div className="input-field col s12 m6 l6">
-                                <input required id="first_name" type="text" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'nombre')}}/>
+                                <input required id="first_name" type="text" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'nombres')}}/>
                                 <label htmlFor="first_name">Nombre</label>
                             </div>
                             <div className="input-field col s12 m6 l6">
@@ -27,11 +31,11 @@ const registerView = props => {
                                 <label htmlFor="tel">Teléfono</label>
                             </div>
                             <div className="input-field col s12">
-                                <input required id="email" type="email" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'email')}}/>
+                                <input required id="email" type="email" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'correo')}}/>
                                 <label htmlFor="email">Correo</label>
                             </div>
                             <div className="input-field col s12">
-                                <input required id="password" type="password" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'pw')}}/>
+                                <input required id="password" type="password" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'contrasena')}}/>
                                 <label htmlFor="password">Contraseña</label>
                             </div>
                         </div>
@@ -42,12 +46,12 @@ const registerView = props => {
                                 <label htmlFor="street">Calle</label>
                             </div>
                             <div className="input-field col s12 m4 l4">
-                                <input required id="num_ext" type="number" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'numExterior')}}/>
+                                <input required id="num_ext" type="number" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'num_ext')}}/>
                                 <label htmlFor="num_ext">Número exterior</label>
                             </div>
                             <div className="input-field col s12 m4 l4">
-                                <input id="num_int" type="number" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'numInterior')}}/>
-                                <label htmlFor="num_int">Número interior</label>
+                                <input id="num_int" type="number" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'num_in')}}/>
+                                <label htmlFor="num_int">Número interior (Opcional)</label>
                             </div>
                             <div className="input-field col s12 m4 l4">
                                 <input required id="colonia" type="text" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'colonia')}}/>
@@ -58,7 +62,7 @@ const registerView = props => {
                                 <label htmlFor="alcaldia">Municipio</label>
                             </div>
                             <div className="input-field col s12 m4 l4">
-                                <input required id="cp" type="number" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'cp')}}/>
+                                <input required id="cp" type="text" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'cp')}}/>
                                 <label htmlFor="cp">Código Postal</label>
                             </div>
                             <div className="input-field col s12 m6 l6">
@@ -72,7 +76,7 @@ const registerView = props => {
                         </div>
                         <div className="row">
                             <div className="input-field col s12">
-                                <button className="waves-effect waves-light btn rifle-green" onClick={ props.apiRegister }>Registrarse</button>
+                                <button className="waves-effect waves-light btn rifle-green" onClick={(e) => {props.apiRegister(e)} }>Registrarse</button>
                             </div>
                         </div>   
                     </form>

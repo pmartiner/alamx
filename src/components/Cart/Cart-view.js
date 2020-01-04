@@ -8,7 +8,7 @@ const cartView = props => {
     let precioTotal = 0;
     let hide = "hide";
 
-    const products = props.shoppingCart.map((elem, i) => {
+    const products = props.shoppingCart.items.map((elem, i) => {
           precioTotal = precioTotal + elem.precioTotal;
           if(precioTotal > 0)
             hide = "input-field col s12 center";
@@ -22,7 +22,8 @@ const cartView = props => {
                     detalles = { elem.detalles }
                     historia = { elem.historia }                    
                     addToCart={ props.addToCart }
-                    removeFromCart={ props.removeFromCart }                      
+                    removeFromCart={ props.removeFromCart }  
+                    id = { props.id }                    
                 /> 
         });
 

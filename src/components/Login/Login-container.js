@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import LoginView from './Login-view';
 import update from 'immutability-helper';
-import { Redirect } from "react-router-dom";
+import api from '../../utils/api/api';
 
-let login = false;
 class LoginContainer extends Component {
     state = {
         user: {
-            email: "",
-            pw: "",
+            correo: "",
+            contrasena: "",
+            id: 0
         },
         hasErrors: false,
         isEmpty: false,
@@ -40,42 +40,35 @@ class LoginContainer extends Component {
                 });
     }
 
-    apiLogin = () => {
+    apiLogin = (e) => {
+        e.preventDefault();
         let empty = false
 
-        if(this.state.user.email === "" || this.state.user.pw === "")
+        if(this.state.user.correo === "" || this.state.user.contrasena === "")
             empty = true;
             this.setState({
                 isEmpty: true
             })
-        if(this.state.user.email !== "" || this.state.user.pw !== "") {
+        if(this.state.user.correo !== "" || this.state.user.contrasena !== "") {
             this.setState({ isEmpty: false })
             
         }
         if(!empty) {
-            
-            const i = this.props.users.findIndex(elem => elem.email === this.state.user.email);
-            console.log(i)
-            if(i === -1 || this.props.users[i].pw !== this.state.user.pw)
-                this.setState({hasErrors: true})
-            else if(this.props.users[i].pw === this.state.user.pw && i !== -1) {
-                login = true;
-                this.setState({
-                    hasErrors: false,
-                    loggedIn: true
+            api.login(this.state.user)
+                .then((data) => {
+                    if(data.loginResponse.return.content === -1)
+                        this.setState({ hasErrors: true });
+                    else 
+                        this.props.login(this.state.user, this.state.remember);
                 })
-                this.props.login(this.props.users[i], this.state.remember);
-            }
         }
         
         
     }
 
     render() {
-        if(login)
-            return(<Redirect to="/"/>)
         return(
-            <LoginView hasErrors={this.state.hasErrors} isEmpty={this.state.isEmpty} apiLogin={this.apiLogin} handleInputChange={(e, val) => {this.handleInputChange(e, val)}}/>
+            <LoginView hasErrors={this.state.hasErrors} isEmpty={this.state.isEmpty} apiLogin={e => this.apiLogin(e)} handleInputChange={(e, val) => {this.handleInputChange(e, val)}}/>
         );
     }
 }

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<process
+    name="ALaMXBPEL"
+    targetNamespace="http://enterprise.netbeans.org/bpel/ALaMXBPEL/ALaMXBPEL"
+    xmlns:tns="http://enterprise.netbeans.org/bpel/ALaMXBPEL/ALaMXBPEL"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:sxt="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Trace" 
+    xmlns:sxed="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor2"
+    xmlns:sxat="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Attachment"
+    xmlns:sxeh="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/ErrorHandling" xmlns:sxnmp="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/NMProperty">
+   <import namespace="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" location="ALaMX_RESTInboundWSDL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+   <import namespace="http://enterprise.netbeans.org/bpel/WSPedidoWrapper" location="WSPedidoWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+   <import namespace="http://ejb/" location="http://localhost:9090/WSPedido/WSPedido?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+   <import namespace="http://enterprise.netbeans.org/bpel/WSProductoWrapper" location="WSProductoWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+   <import namespace="http://ejb/" location="http://localhost:9090/WSProducto/WSProducto?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+   <import namespace="http://enterprise.netbeans.org/bpel/WSUsuarioWrapper" location="WSUsuarioWrapper.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+   <import namespace="http://ejb/" location="http://localhost:9090/WSUsuario/WSUsuario?WSDL" importType="http://schemas.xmlsoap.org/wsdl/"/>
+   <partnerLinks>
+      <partnerLink name="WSPedido" xmlns:tns="http://enterprise.netbeans.org/bpel/WSPedidoWrapper" partnerLinkType="tns:WSPedidoLinkType" partnerRole="WSPedidoRole"/>
+      <partnerLink name="WSProducto" xmlns:tns="http://enterprise.netbeans.org/bpel/WSProductoWrapper" partnerLinkType="tns:WSProductoLinkType" partnerRole="WSProductoRole"/>
+      <partnerLink name="WSUsuario" xmlns:tns="http://enterprise.netbeans.org/bpel/WSUsuarioWrapper" partnerLinkType="tns:WSUsuarioLinkType" partnerRole="WSUsuarioRole"/>
+      <partnerLink name="Input" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" partnerLinkType="tns:RestInboundWSDL" myRole="RestInboundPortTypeRole"/>
+   </partnerLinks>
+   <variables>
+      <variable name="LoginBPELOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" messageType="tns:loginResponse">
+         <sxed:editor>
+            <sxed:nmProperties>
+               <sxed:nmProperty nmProperty="org.glassfish.openesb.rest.response.headers" displayName="Response Headers" source="to"/>
+            </sxed:nmProperties>
+         </sxed:editor>
+      </variable>
+      <variable name="LoginBPELIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" messageType="tns:loginRequest"/>
+      <variable name="FindAllOut" xmlns:tns="http://ejb/" messageType="tns:findAllResponse"/>
+      <variable name="FindAllIn" xmlns:tns="http://ejb/" messageType="tns:findAll"/>
+      <variable name="FindAllProductsOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" messageType="tns:findAllProductsResponse"/>
+      <variable name="FindAllProductsIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" messageType="tns:findAllProductsRequest"/>
+      <variable name="AltaUsuarioOut" xmlns:tns="http://ejb/" messageType="tns:altaUsuarioResponse"/>
+      <variable name="AltaUsuarioIn" xmlns:tns="http://ejb/" messageType="tns:altaUsuario"/>
+      <variable name="LoginOut" xmlns:tns="http://ejb/" messageType="tns:loginResponse"/>
+      <variable name="LoginIn" xmlns:tns="http://ejb/" messageType="tns:login">
+         <sxed:editor>
+            <sxed:nmProperties>
+               <sxed:nmProperty nmProperty="org.glassfish.openesb.rest.headers" displayName="Request Headers" source="to"/>
+            </sxed:nmProperties>
+         </sxed:editor>
+      </variable>
+      <variable name="CreateUsuarioOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" messageType="tns:createUsuarioResponse"/>
+      <variable name="CreateUsuarioIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" messageType="tns:createUsuarioRequest"/>
+      <variable name="PedidosPorUsuarioOut" xmlns:tns="http://ejb/" messageType="tns:pedidosPorUsuarioResponse"/>
+      <variable name="PedidosPorUsuarioIn" xmlns:tns="http://ejb/" messageType="tns:pedidosPorUsuario"/>
+      <variable name="PedidosByUsuarioOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" messageType="tns:pedidosByUsuarioResponse"/>
+      <variable name="PedidosByUsuarioIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" messageType="tns:pedidosByUsuarioRequest">
+         <sxed:editor>
+            <sxed:nmProperties>
+               <sxed:nmProperty nmProperty="org.glassfish.openesb.rest.path-params.idUsuario" displayName="idUsuario" source="from"/>
+            </sxed:nmProperties>
+         </sxed:editor>
+      </variable>
+      <variable name="EnviarPedidoOut" xmlns:tns="http://ejb/" messageType="tns:enviarPedidoResponse"/>
+      <variable name="EnviarPedidoIn" xmlns:tns="http://ejb/" messageType="tns:enviarPedido"/>
+      <variable name="AltaPedidoOut" xmlns:tns="http://ejb/" messageType="tns:altaPedidoResponse"/>
+      <variable name="AltaPedidoIn" xmlns:tns="http://ejb/" messageType="tns:altaPedido"/>
+      <variable name="NuevaVentaOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" messageType="tns:nuevaVentaResponse"/>
+      <variable name="NuevaVentaIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" messageType="tns:nuevaVentaRequest"/>
+      <variable name="PongIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" messageType="tns:pongRequest"/>
+      <variable name="PongOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" messageType="tns:pongResponse"/>
+   </variables>
+   <sequence>
+      <pick name="Pick1" createInstance="yes">
+         <onMessage partnerLink="Input" operation="pong" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" portType="tns:RestInboundPortType" variable="PongIn">
+            <sequence name="Sequence1">
+               <assign name="Assign1">
+                  <copy>
+                     <from>'pong'</from>
+                     <to variable="PongOut" part="part1"/>
+                  </copy>
+               </assign>
+               <reply name="resPong" partnerLink="Input" operation="pong" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" portType="tns:RestInboundPortType" variable="PongOut"/>
+            </sequence>
+         </onMessage>
+         <onMessage partnerLink="Input" operation="nuevaVenta" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" portType="tns:RestInboundPortType" variable="NuevaVentaIn">
+            <sequence name="Sequence2">
+               <assign name="asigAltaPedido">
+                  <copy>
+                     <from>$NuevaVentaIn.part1/id_producto</from>
+                     <to>$AltaPedidoIn.parameters/id_producto</to>
+                  </copy>
+                  <copy>
+                     <from>$NuevaVentaIn.part1/id_usuario</from>
+                     <to>$AltaPedidoIn.parameters/id_usuario</to>
+                  </copy>
+                  <copy>
+                     <from>$NuevaVentaIn.part1/tarjeta</from>
+                     <to>$AltaPedidoIn.parameters/tarjeta</to>
+                  </copy>
+                  <copy>
+                     <from>$NuevaVentaIn.part1/costo_total</from>
+                     <to>$AltaPedidoIn.parameters/costo_total</to>
+                  </copy>
+                  <copy>
+                     <from>$NuevaVentaIn.part1/cantidad</from>
+                     <to>$AltaPedidoIn.parameters/cantidad</to>
+                  </copy>
+               </assign>
+               <invoke name="reqAltaPedido" partnerLink="WSPedido" operation="altaPedido" xmlns:tns="http://ejb/" portType="tns:WSPedido" inputVariable="AltaPedidoIn" outputVariable="AltaPedidoOut"/>
+               <assign name="asigEnviarPedido">
+                  <copy>
+                     <from>$NuevaVentaIn.part1/fecha_entrega</from>
+                     <to>$EnviarPedidoIn.parameters/fecha_entrega</to>
+                  </copy>
+                  <copy>
+                     <from>$AltaPedidoOut.parameters/return</from>
+                     <to>$EnviarPedidoIn.parameters/id_pedido</to>
+                  </copy>
+               </assign>
+               <invoke name="reqEnviarPedido" partnerLink="WSPedido" operation="enviarPedido" xmlns:tns="http://ejb/" portType="tns:WSPedido" inputVariable="EnviarPedidoIn" outputVariable="EnviarPedidoOut"/>
+               <assign name="asigNuevaVenta">
+                  <copy>
+                     <from>$EnviarPedidoOut.parameters/return</from>
+                     <to>$NuevaVentaOut.part1/return</to>
+                  </copy>
+               </assign>
+               <reply name="resNuevaVenta" partnerLink="Input" operation="nuevaVenta" portType="tns:RestInboundPortType" variable="NuevaVentaOut"/>
+            </sequence>
+         </onMessage>
+         <onMessage partnerLink="Input" operation="pedidosByUsuario" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" portType="tns:RestInboundPortType" variable="PedidosByUsuarioIn">
+            <sequence name="Sequence3">
+               <assign name="asignPedidosPorUsuario">
+                  <copy>
+                     <from variable="PedidosByUsuarioIn" sxnmp:nmProperty="org.glassfish.openesb.rest.path-params.idUsuario"/>
+                     <to>$PedidosPorUsuarioIn.parameters/id_usuario</to>
+                  </copy>
+               </assign>
+               <invoke name="reqPedidosPorUsuario" partnerLink="WSPedido" operation="pedidosPorUsuario" xmlns:tns="http://ejb/" portType="tns:WSPedido" inputVariable="PedidosPorUsuarioIn" outputVariable="PedidosPorUsuarioOut"/>
+               <assign name="asignPedidosByUsuario">
+                  <copy>
+                     <from>$PedidosPorUsuarioOut.parameters/return</from>
+                     <to>$PedidosByUsuarioOut.part1/return</to>
+                  </copy>
+               </assign>
+               <reply name="resPedidosByUsuario" partnerLink="Input" operation="pedidosByUsuario" portType="tns:RestInboundPortType" variable="PedidosByUsuarioOut"/>
+            </sequence>
+         </onMessage>
+         <onMessage partnerLink="Input" operation="createUsuario" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" portType="tns:RestInboundPortType" variable="CreateUsuarioIn">
+            <sequence name="Sequence4">
+               <assign name="asignAltaUsuario">
+                  <copy>
+                     <from>$CreateUsuarioIn.part1/nombres</from>
+                     <to>$AltaUsuarioIn.parameters/nombres</to>
+                  </copy>
+                  <copy>
+                     <from>$CreateUsuarioIn.part1/apellidos</from>
+                     <to>$AltaUsuarioIn.parameters/apellidos</to>
+                  </copy>
+                  <copy>
+                     <from>$CreateUsuarioIn.part1/telefono</from>
+                     <to>$AltaUsuarioIn.parameters/telefono</to>
+                  </copy>
+                  <copy>
+                     <from>$CreateUsuarioIn.part1/correo</from>
+                     <to>$AltaUsuarioIn.parameters/correo</to>
+                  </copy>
+                  <copy>
+                     <from>$CreateUsuarioIn.part1/contrasena</from>
+                     <to>$AltaUsuarioIn.parameters/contrasena</to>
+                  </copy>
+                  <copy>
+                     <from>$CreateUsuarioIn.part1/calle</from>
+                     <to>$AltaUsuarioIn.parameters/calle</to>
+                  </copy>
+                  <copy>
+                     <from>$CreateUsuarioIn.part1/num_ext</from>
+                     <to>$AltaUsuarioIn.parameters/num_ext</to>
+                  </copy>
+                  <copy>
+                     <from>$CreateUsuarioIn.part1/num_in</from>
+                     <to>$AltaUsuarioIn.parameters/num_in</to>
+                  </copy>
+                  <copy>
+                     <from>$CreateUsuarioIn.part1/colonia</from>
+                     <to>$AltaUsuarioIn.parameters/colonia</to>
+                  </copy>
+                  <copy>
+                     <from>$CreateUsuarioIn.part1/municipio</from>
+                     <to>$AltaUsuarioIn.parameters/municipio</to>
+                  </copy>
+                  <copy>
+                     <from>$CreateUsuarioIn.part1/cp</from>
+                     <to>$AltaUsuarioIn.parameters/cp</to>
+                  </copy>
+                  <copy>
+                     <from>$CreateUsuarioIn.part1/ciudad</from>
+                     <to>$AltaUsuarioIn.parameters/ciudad</to>
+                  </copy>
+                  <copy>
+                     <from>$CreateUsuarioIn.part1/estado</from>
+                     <to>$AltaUsuarioIn.parameters/estado</to>
+                  </copy>
+               </assign>
+               <invoke name="reqAltaUsuario" partnerLink="WSUsuario" operation="altaUsuario" xmlns:tns="http://ejb/" portType="tns:WSUsuario" inputVariable="AltaUsuarioIn" outputVariable="AltaUsuarioOut"/>
+               <assign name="asignCreateUsuario">
+                  <copy>
+                     <from>$AltaUsuarioOut.parameters/return</from>
+                     <to>$CreateUsuarioOut.part1/return</to>
+                  </copy>
+               </assign>
+               <reply name="resCreateUsuario" partnerLink="Input" operation="createUsuario" portType="tns:RestInboundPortType" variable="CreateUsuarioOut"/>
+            </sequence>
+         </onMessage>
+         <onMessage partnerLink="Input" operation="findAllProducts" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" portType="tns:RestInboundPortType" variable="FindAllProductsIn">
+            <sequence name="Sequence5">
+               <assign name="asignFindAll">
+                  <copy>
+                     <from variable="FindAllProductsIn" part="part1"/>
+                     <to variable="FindAllIn" part="parameters"/>
+                  </copy>
+               </assign>
+               <invoke name="reqFindAllProductos" partnerLink="WSProducto" operation="findAll" xmlns:tns="http://ejb/" portType="tns:WSProducto" inputVariable="FindAllIn" outputVariable="FindAllOut"/>
+               <assign name="asignFindAllProducts">
+                  <copy>
+                     <from>$FindAllOut.parameters/return</from>
+                     <to>$FindAllProductsOut.part1/return</to>
+                  </copy>
+               </assign>
+               <reply name="resFindAllProducts" partnerLink="Input" operation="findAllProducts" portType="tns:RestInboundPortType" variable="FindAllProductsOut"/>
+            </sequence>
+         </onMessage>
+         <onMessage partnerLink="Input" operation="login" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" portType="tns:RestInboundPortType" variable="LoginBPELIn">
+            <sequence name="Sequence6">
+               <assign name="asigLogin">
+                  <copy>
+                     <from>$LoginBPELIn.part1/correo</from>
+                     <to>$LoginIn.parameters/correo</to>
+                  </copy>
+                  <copy>
+                     <from>$LoginBPELIn.part1/contrasena</from>
+                     <to>$LoginIn.parameters/contrasena</to>
+                  </copy>
+                  <copy>
+                     <from>'{"Origin":"http://localhost:9696"}'</from>
+                     <to variable="LoginIn" sxnmp:nmProperty="org.glassfish.openesb.rest.headers"/>
+                  </copy>
+               </assign>
+               <invoke name="reqLogin" partnerLink="WSUsuario" operation="login" xmlns:tns="http://ejb/" portType="tns:WSUsuario" inputVariable="LoginIn" outputVariable="LoginOut"/>
+               <assign name="asigLoginBPEL">
+                  <copy>
+                     <from>$LoginOut.parameters/return</from>
+                     <to>$LoginBPELOut.part1/return</to>
+                  </copy>
+                  <copy>
+                     <from>'{"Access-Control-Allow-Origin":"http://localhost:3000"}'</from>
+                     <to variable="LoginBPELOut" sxnmp:nmProperty="org.glassfish.openesb.rest.response.headers"/>
+                  </copy>
+               </assign>
+               <reply name="resLogin" partnerLink="Input" operation="login" portType="tns:RestInboundPortType" variable="LoginBPELOut"/>
+            </sequence>
+         </onMessage>
+      </pick>
+   </sequence>
+</process>

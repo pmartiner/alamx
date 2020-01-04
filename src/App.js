@@ -21,26 +21,12 @@ import PayedView from './components/Payed/Payed-view';
 class App extends Component {
   state = {
     isLoggedIn: false,
-    shoppingCart: [],
-    users: [],
+    shoppingCart: {
+      cantidadItems: 0,
+      items: []
+    },
     user: {},
-    rememberMe: false,
-    input: {
-      email: "",
-      pw: ""
-    }
-  }
-
-  addUser = user => {
-    let newUser = {...user};
-    let auxUsers = [...this.state.users];
-
-    auxUsers.push(newUser);
-    localStorage.removeItem("user");
-    localStorage.setItem("users", JSON.stringify(auxUsers));
-    this.setState({
-      users: auxUsers
-    })
+    rememberMe: false
   }
 
   login(userLogged, remember) {
@@ -54,7 +40,6 @@ class App extends Component {
       localStorage.setItem("isLoggedIn", remember);
       localStorage.removeItem("user");
       localStorage.setItem("user", JSON.stringify(userLogged));
-      console.log("session")
     }
   }
 
@@ -77,18 +62,20 @@ class App extends Component {
     }
   }
 
-  
-
   addToCart = (prod) => {
-    let auxCart = [...this.state.shoppingCart];
+    let auxCart = {...this.state.shoppingCart};
 
-    if(auxCart.findIndex(elem => elem.nombre === prod.nombre) === -1)
-      auxCart.push(prod);
+    if(auxCart.items.findIndex(elem => elem.nombre === prod.nombre) === -1)
+      auxCart.items.push(prod);
     else {
-      let i = auxCart.findIndex(elem => elem.nombre === prod.nombre);
-      auxCart[i].precioTotal += prod.precio
-      auxCart[i].cantidad += 1;
+      let i = auxCart.items.findIndex(elem => elem.nombre === prod.nombre);
+      auxCart.items[i].precioTotal += prod.precio
+      auxCart.items[i].cantidad += 1;
     }
+
+    let auxCant = 0;
+    auxCart.items.forEach(elem => auxCant += elem.cantidad);
+    auxCart.cantidadItems = auxCant;
 
     localStorage.setItem("shoppingCart", JSON.stringify(auxCart))
 
@@ -98,16 +85,16 @@ class App extends Component {
   }
 
   removeFromCart = (prod) => {
-    let auxCart = [...this.state.shoppingCart];
+    let auxCart = {...this.state.shoppingCart};
 
-    let i = auxCart.findIndex(elem => elem.nombre === prod.nombre);
+    let i = auxCart.items.findIndex(elem => elem.nombre === prod.nombre);
     if(i !== -1) {
-      auxCart[i].precioTotal -= prod.precio
-      auxCart[i].cantidad -= 1;
-      if(auxCart[i].cantidad === 0)
-        auxCart.splice(i, 1);
+      auxCart.items[i].precioTotal -= prod.precio
+      auxCart.items[i].cantidad -= 1;
+      --auxCart.cantidadItems;
+      if(auxCart.items[i].cantidad === 0)
+        auxCart.items.splice(i, 1);
     }
-
     localStorage.setItem("shoppingCart", JSON.stringify(auxCart))
 
     this.setState({
@@ -117,24 +104,13 @@ class App extends Component {
 
   componentDidMount() {
     const shopping = localStorage.getItem("shoppingCart");
-    const users = localStorage.getItem("users");
     const user = localStorage.getItem("user");
     const loggedIn = localStorage.getItem("isLoggedIn");
-    console.log(loggedIn)
     if(shopping !== null) {
       let shop = JSON.parse(shopping);
       
       this.setState({
         shoppingCart: shop
-      });
-    }
-
-    
-    if(users !== null) {
-      let allUsers = JSON.parse(users);
-      
-      this.setState({
-        users: allUsers
       });
     }
 
@@ -150,27 +126,27 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.users)
     let switches = [
       <Route key="home" exact path="/" render={() => <LandingContainer/>}/>,
       <Route key="payed_g" path="/payed" render={() => <PayedView/>}/>,
       <Route key="paym_g"  path="/payment" render={() => <PaymentContainer shoppingCart={this.state.shoppingCart} isLoggedIn={ this.state.isLoggedIn }/>}/>,
-      <Route key="regi" path="/register" render={ ()=> <RegisterContainer addUser={ (user) => {this.addUser(user)} }/> }/>,
+      <Route key="regi" path="/register" render={ ()=> <RegisterContainer /> }/>,
       <Route key="cata" path="/catalog" render={() => <CatalogContainer isLoggedIn={this.state.isLoggedIn} addToCart={(prod) => {this.addToCart(prod)}} />}/>,
-      <Route key="logi" path="/login" render={() => <LoginContainer login={ (user, remember) => {this.login(user, remember)} } users={this.state.users}/>}/>,
-      <Route key="cart" render={() => <CartContainer shoppingCart={ this.state.shoppingCart } isLoggedIn={this.state.isLoggedIn} removeFromCart={(prod) => {this.removeFromCart(prod)}} addToCart={(prod) => {this.addToCart(prod)}} />}/>
-      
+      <Route key="logi" path="/userLogin" render={() => <LoginContainer login={ (user, remember) => {this.login(user, remember)} } />}/>,
+      <Route key="cart" render={() => <CartContainer shoppingCart={ this.state.shoppingCart } isLoggedIn={this.state.isLoggedIn} removeFromCart={(prod) => {this.removeFromCart(prod)}} addToCart={(prod) => {this.addToCart(prod)}} />}/>,
+      <Route key="homeDefault" render={() => <LandingContainer/>}/>
     ]
 
     if(this.state.isLoggedIn)
       switches = [
-        <Redirect key="redi" exact from="/login" to="/" />,
+        <Redirect key="redi" exact from="/userLogin" to="/" />,
         <Route key="homey" exact path="/" render={() => <LandingContainer/>}/>,
         <Route key="payed" path="/payed" render={() => <PayedView/>}/>,
-        <Route key="paym" path="/payment" render={() => <PaymentContainer shoppingCart={this.state.shoppingCart} isLoggedIn={ this.state.isLoggedIn }/>}/>,
+        <Route key="paym" path="/payment" render={() => <PaymentContainer shoppingCart={this.state.shoppingCart} user={this.state.user} isLoggedIn={ this.state.isLoggedIn }/>}/>,
         <Route key="perfi" path="/perfil" component={RegisterContainer}/>,
         <Route key="catal" path="/catalog" render={() => <CatalogContainer isLoggedIn={this.state.isLoggedIn} addToCart={(prod) => {this.addToCart(prod)}} />}/>,
-        <Route key="carti" path="/cart" render={() => <CartContainer shoppingCart={ this.state.shoppingCart } isLoggedIn={this.state.isLoggedIn} removeFromCart={(prod) => {this.removeFromCart(prod)}} addToCart={(prod) => {this.addToCart(prod)}} />}/>
+        <Route key="carti" path="/cart" render={() => <CartContainer shoppingCart={ this.state.shoppingCart } isLoggedIn={this.state.isLoggedIn} removeFromCart={(prod) => {this.removeFromCart(prod)}} addToCart={(prod) => {this.addToCart(prod)}} />}/>,
+        <Route key="homeDefaultLoggedIn" render={() => <LandingContainer/>}/>
       ]
 
     return (

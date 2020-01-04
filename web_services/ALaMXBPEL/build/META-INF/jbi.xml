@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jbi xmlns="http://java.sun.com/xml/ns/jbi" xmlns:ns0="http://enterprise.netbeans.org/bpel/ALaMXBPEL/ALaMXBPEL" xmlns:ns1="http://ejb/" xmlns:ns2="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" xmlns:ns3="http://www.sun.com/jbi/descriptor/service-unit" version="1.0">
+    <services binding-component="false">
+        <provides endpoint-name="RestInboundPortTypeRole_myRole" interface-name="ns2:RestInboundPortType" service-name="ns0:Input">
+            <ns3:display-name>Input</ns3:display-name>
+            <ns3:process-name>ALaMXBPEL</ns3:process-name>
+            <ns3:file-path>ALaMXBPEL.bpel</ns3:file-path>
+        </provides>
+        <consumes endpoint-name="WSPedidoRole_partnerRole" interface-name="ns1:WSPedido" service-name="ns0:WSPedido">
+            <ns3:display-name>WSPedido</ns3:display-name>
+            <ns3:process-name>ALaMXBPEL</ns3:process-name>
+            <ns3:file-path>ALaMXBPEL.bpel</ns3:file-path>
+        </consumes>
+        <consumes endpoint-name="WSProductoRole_partnerRole" interface-name="ns1:WSProducto" service-name="ns0:WSProducto">
+            <ns3:display-name>WSProducto</ns3:display-name>
+            <ns3:process-name>ALaMXBPEL</ns3:process-name>
+            <ns3:file-path>ALaMXBPEL.bpel</ns3:file-path>
+        </consumes>
+        <consumes endpoint-name="WSUsuarioRole_partnerRole" interface-name="ns1:WSUsuario" service-name="ns0:WSUsuario">
+            <ns3:display-name>WSUsuario</ns3:display-name>
+            <ns3:process-name>ALaMXBPEL</ns3:process-name>
+            <ns3:file-path>ALaMXBPEL.bpel</ns3:file-path>
+        </consumes>
+    </services>
+</jbi>

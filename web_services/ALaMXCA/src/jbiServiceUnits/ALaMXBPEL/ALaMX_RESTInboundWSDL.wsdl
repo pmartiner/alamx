@@ -1,0 +1,412 @@
+<definitions name="ALaMX_RESTInboundWSDL"
+    targetNamespace="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:rest="http://schemas.sun.com/jbi/wsdl-extensions/rest/"
+    xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" xmlns:ns5="http://ejb/">
+    <types>
+        <xsd:schema targetNamespace="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL">
+            <xsd:import namespace="http://ejb/" schemaLocation="http://localhost:9090/WSUsuario/WSUsuario?xsd=1"/>
+            <xsd:import namespace="http://ejb/" schemaLocation="http://localhost:9090/WSProducto/WSProducto?xsd=1"/>
+            <xsd:import namespace="http://ejb/" schemaLocation="http://localhost:9090/WSPedido/WSPedido?xsd=1"/>
+        </xsd:schema>
+    </types>
+    <message name="pongRequest">
+        <part name="part1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="xsd:anyType"/>
+    </message>
+    <message name="pongResponse">
+        <part name="part1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="xsd:string"/>
+    </message>
+    <message name="pedidosByUsuarioRequest">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:pedidosPorUsuario"/>
+    </message>
+    <message name="pedidosByUsuarioResponse">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:pedidosPorUsuarioResponse"/>
+    </message>
+    <message name="findProductoByIdRequest">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:find"/>
+    </message>
+    <message name="findProductoByIdResponse">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:findResponse"/>
+    </message>
+    <message name="findAllProductsRequest">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:findAll"/>
+    </message>
+    <message name="findAllProductsResponse">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:findAllResponse"/>
+    </message>
+    <message name="nuevaVentaRequest">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:nuevoPedido"/>
+    </message>
+    <message name="nuevaVentaResponse">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:enviarPedidoResponse"/>
+    </message>
+    <message name="editarFechaEnvioRequest">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:enviarPedido"/>
+    </message>
+    <message name="editarFechaEnvioResponse">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:enviarPedidoResponse"/>
+    </message>
+    <message name="createProductoRequest">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:create"/>
+    </message>
+    <message name="createProductoResponse">
+        <part name="part1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="xsd:anyType"/>
+    </message>
+    <message name="editProductoRequest">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:edit"/>
+    </message>
+    <message name="editProductoResponse">
+        <part name="part1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="xsd:anyType"/>
+    </message>
+    <message name="createUsuarioRequest">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:altaUsuario"/>
+    </message>
+    <message name="createUsuarioResponse">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:altaUsuarioResponse"/>
+    </message>
+    <message name="loginRequest">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:login"/>
+    </message>
+    <message name="loginResponse">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:loginResponse"/>
+    </message>
+    <message name="removeProductoRequest">
+        <part name="part1" xmlns:ns="http://ejb/" element="ns:remove"/>
+    </message>
+    <message name="removeProductoResponse">
+        <part name="part1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="xsd:anyType"/>
+    </message>
+    <portType name="RestInboundPortType">
+        <operation name="pong">
+            <input name="pongInput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:pongRequest"/>
+            <output name="pongOutput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:pongResponse"/>
+        </operation>
+        <operation name="pedidosByUsuario">
+            <input name="pedidosByUsuarioInput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:pedidosByUsuarioRequest"/>
+            <output name="pedidosByUsuarioOutput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:pedidosByUsuarioResponse"/>
+        </operation>
+        <operation name="findProductoById">
+            <input name="findProductoByIdInput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:findProductoByIdRequest"/>
+            <output name="findProductoByIdOutput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:findProductoByIdResponse"/>
+        </operation>
+        <operation name="findAllProducts">
+            <input name="findAllProductsInput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:findAllProductsRequest"/>
+            <output name="findAllProductsOutput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:findAllProductsResponse"/>
+        </operation>
+        <operation name="nuevaVenta">
+            <input name="nuevaVentaInput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:nuevaVentaRequest"/>
+            <output name="nuevaVentaOutput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:nuevaVentaResponse"/>
+        </operation>
+        <operation name="editarFechaEnvio">
+            <input name="editarFechaEnvioInput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:editarFechaEnvioRequest"/>
+            <output name="editarFechaEnvioOutput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:editarFechaEnvioResponse"/>
+        </operation>
+        <operation name="createProducto">
+            <input name="createProductoInput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:createProductoRequest"/>
+            <output name="createProductoOutput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:createProductoResponse"/>
+        </operation>
+        <operation name="editProducto">
+            <input name="editProductoInput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:editProductoRequest"/>
+            <output name="editProductoOutput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:editProductoResponse"/>
+        </operation>
+        <operation name="createUsuario">
+            <input name="createUsuarioInput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:createUsuarioRequest"/>
+            <output name="createUsuarioOutput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:createUsuarioResponse"/>
+        </operation>
+        <operation name="login">
+            <input name="loginInput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:loginRequest"/>
+            <output name="loginOutput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:loginResponse"/>
+        </operation>
+        <operation name="removeProducto">
+            <input name="removeProductoInput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:removeProductoRequest"/>
+            <output name="removeProductoOutput" xmlns:tns="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" message="tns:removeProductoResponse"/>
+        </operation>
+    </portType>
+    <binding name="RestInboundBinding" type="tns:RestInboundPortType">
+        <rest:binding/>
+        <operation name="pong">
+            <rest:operation>
+&lt;![CDATA[
+# optional, name of HTTP listener to bind to, defaults to "default-listener"
+http-listener-name=default-listener
+
+# required, path to this resource
+path=/ping
+
+# optional, HTTP verb to access the resource, defaults to GET
+method=GET
+
+# optional, acceptable MIME types for request payload, defaults to "application/json", "application/xml"
+consume-types=[ "application/json", "application/xml", "text/plain"]
+
+# optional, all possible MIME types of response payload, defaults to "application/json", "application/xml"
+produce-types=[ "application/json", "application/xml", "text/plain"]
+
+forward-as-attachment=false
+
+]]&gt;</rest:operation>
+            <input name="pongInput"/>
+            <output name="pongOutput"/>
+        </operation>
+        <operation name="pedidosByUsuario">
+            <rest:operation>
+&lt;![CDATA[
+# optional, name of HTTP listener to bind to, defaults to "default-listener"
+http-listener-name=default-listener
+
+# required, path to this resource
+path=/pedidosByUsuario/{idUsuario}
+
+# optional, HTTP verb to access the resource, defaults to GET
+method=GET
+
+# optional, acceptable MIME types for request payload, defaults to "application/json", "application/xml"
+consume-types=[ "application/json", "application/xml" ]
+
+# optional, all possible MIME types of response payload, defaults to "application/json", "application/xml"
+produce-types=[ "application/json", "application/xml" ]
+
+forward-as-attachment=false
+
+]]&gt;</rest:operation>
+            <input name="pedidosByUsuarioInput"/>
+            <output name="pedidosByUsuarioOutput"/>
+        </operation>
+        <operation name="findProductoById">
+            <rest:operation>
+&lt;![CDATA[
+# optional, name of HTTP listener to bind to, defaults to "default-listener"
+http-listener-name=default-listener
+
+# required, path to this resource
+path=/findProductoById/{idProducto}
+
+# optional, HTTP verb to access the resource, defaults to GET
+method=GET
+
+# optional, acceptable MIME types for request payload, defaults to "application/json", "application/xml"
+consume-types=[ "application/json", "application/xml" ]
+
+# optional, all possible MIME types of response payload, defaults to "application/json", "application/xml"
+produce-types=[ "application/json", "application/xml" ]
+
+forward-as-attachment=false
+
+]]&gt;</rest:operation>
+            <input name="findProductoByIdInput"/>
+            <output name="findProductoByIdOutput"/>
+        </operation>
+        <operation name="findAllProducts">
+            <rest:operation>
+&lt;![CDATA[
+# optional, name of HTTP listener to bind to, defaults to "default-listener"
+http-listener-name=default-listener
+
+# required, path to this resource
+path=/findAllProducts
+
+# optional, HTTP verb to access the resource, defaults to GET
+method=GET
+
+# optional, acceptable MIME types for request payload, defaults to "application/json", "application/xml"
+consume-types=[ "application/json", "application/xml" ]
+
+# optional, all possible MIME types of response payload, defaults to "application/json", "application/xml"
+produce-types=[ "application/json", "application/xml" ]
+
+forward-as-attachment=false
+
+]]&gt;</rest:operation>
+            <input name="findAllProductsInput"/>
+            <output name="findAllProductsOutput"/>
+        </operation>
+        <operation name="nuevaVenta">
+            <rest:operation>
+&lt;![CDATA[
+# optional, name of HTTP listener to bind to, defaults to "default-listener"
+http-listener-name=default-listener
+
+# required, path to this resource
+path=/nuevaVenta
+
+# optional, HTTP verb to access the resource, defaults to GET
+method=POST
+
+# optional, acceptable MIME types for request payload, defaults to "application/json", "application/xml"
+consume-types=[ "application/json", "application/xml" ]
+
+# optional, all possible MIME types of response payload, defaults to "application/json", "application/xml"
+produce-types=[ "application/json", "application/xml" ]
+
+forward-as-attachment=false
+
+]]&gt;</rest:operation>
+            <input name="nuevaVentaInput"/>
+            <output name="nuevaVentaOutput"/>
+        </operation>
+        <operation name="editarFechaEnvio">
+            <rest:operation>
+&lt;![CDATA[
+# optional, name of HTTP listener to bind to, defaults to "default-listener"
+http-listener-name=default-listener
+
+# required, path to this resource
+path=/editarFechaEnvio
+
+# optional, HTTP verb to access the resource, defaults to GET
+method=POST
+
+# optional, acceptable MIME types for request payload, defaults to "application/json", "application/xml"
+consume-types=[ "application/json", "application/xml" ]
+
+# optional, all possible MIME types of response payload, defaults to "application/json", "application/xml"
+produce-types=[ "application/json", "application/xml" ]
+
+forward-as-attachment=false
+
+]]&gt;</rest:operation>
+            <input name="editarFechaEnvioInput"/>
+            <output name="editarFechaEnvioOutput"/>
+        </operation>
+        <operation name="createProducto">
+            <rest:operation>
+&lt;![CDATA[
+# optional, name of HTTP listener to bind to, defaults to "default-listener"
+http-listener-name=default-listener
+
+# required, path to this resource
+path=/createProducto
+
+# optional, HTTP verb to access the resource, defaults to GET
+method=POST
+
+# optional, acceptable MIME types for request payload, defaults to "application/json", "application/xml"
+consume-types=[ "application/json", "application/xml" ]
+
+# optional, all possible MIME types of response payload, defaults to "application/json", "application/xml"
+produce-types=[ "application/json", "application/xml" ]
+
+forward-as-attachment=false
+
+]]&gt;</rest:operation>
+            <input name="createProductoInput"/>
+            <output name="createProductoOutput"/>
+        </operation>
+        <operation name="editProducto">
+            <rest:operation>
+&lt;![CDATA[
+# optional, name of HTTP listener to bind to, defaults to "default-listener"
+http-listener-name=default-listener
+
+# required, path to this resource
+path=/editProducto
+
+# optional, HTTP verb to access the resource, defaults to GET
+method=POST
+
+# optional, acceptable MIME types for request payload, defaults to "application/json", "application/xml"
+consume-types=[ "application/json", "application/xml" ]
+
+# optional, all possible MIME types of response payload, defaults to "application/json", "application/xml"
+produce-types=[ "application/json", "application/xml" ]
+
+forward-as-attachment=false
+
+]]&gt;</rest:operation>
+            <input name="editProductoInput"/>
+            <output name="editProductoOutput"/>
+        </operation>
+        <operation name="createUsuario">
+            <rest:operation>
+&lt;![CDATA[
+# optional, name of HTTP listener to bind to, defaults to "default-listener"
+http-listener-name=default-listener
+
+# required, path to this resource
+path=/createUsuario
+
+# optional, HTTP verb to access the resource, defaults to GET
+method=POST
+
+# optional, acceptable MIME types for request payload, defaults to "application/json", "application/xml"
+consume-types=[ "application/json", "application/xml" ]
+
+# optional, all possible MIME types of response payload, defaults to "application/json", "application/xml"
+produce-types=[ "application/json", "application/xml" ]
+
+forward-as-attachment=false
+
+]]&gt;</rest:operation>
+            <input name="createUsuarioInput"/>
+            <output name="createUsuarioOutput"/>
+        </operation>
+        <operation name="login">
+            <rest:operation>
+&lt;![CDATA[
+# optional, name of HTTP listener to bind to, defaults to "default-listener"
+http-listener-name=default-listener
+
+# required, path to this resource
+path=/login
+
+# optional, HTTP verb to access the resource, defaults to GET
+method=POST
+
+# optional, acceptable MIME types for request payload, defaults to "application/json", "application/xml"
+consume-types=[ "application/json", "application/xml" ]
+
+# optional, all possible MIME types of response payload, defaults to "application/json", "application/xml"
+produce-types=[ "application/json", "application/xml" ]
+
+forward-as-attachment=false
+
+]]&gt;</rest:operation>
+            <input name="loginInput"/>
+            <output name="loginOutput"/>
+        </operation>
+        <operation name="removeProducto">
+            <rest:operation>
+&lt;![CDATA[
+# optional, name of HTTP listener to bind to, defaults to "default-listener"
+http-listener-name=default-listener
+
+# required, path to this resource
+path=/removeProducto/{idProducto}
+
+# optional, HTTP verb to access the resource, defaults to GET
+method=DELETE
+
+# optional, acceptable MIME types for request payload, defaults to "application/json", "application/xml"
+consume-types=[ "application/json", "application/xml" ]
+
+# optional, all possible MIME types of response payload, defaults to "application/json", "application/xml"
+produce-types=[ "application/json", "application/xml" ]
+
+forward-as-attachment=false
+
+
+]]&gt;</rest:operation>
+            <input name="removeProductoInput"/>
+            <output name="removeProductoOutput"/>
+        </operation>
+    </binding>
+    <service name="RestInboundService">
+        <port name="RestInboundWSDL_InboundPort" binding="tns:RestInboundBinding">
+            <rest:address/>
+        </port>
+    </service>
+    <plnk:partnerLinkType name="RestInboundWSDL">
+        <!-- A partner link type is automatically generated when a new port type
+        is added. Partner link types are used by BPEL processes.
+
+        In a BPEL process, a partner link represents the interaction between
+        the BPEL process and a partner service. Each partner link is associated
+        with a partner link type.
+        
+        A partner link type characterizes the conversational relationship
+        between two services. The partner link type can have one or two roles.-->
+        <plnk:role name="RestInboundPortTypeRole" portType="tns:RestInboundPortType"/>
+    </plnk:partnerLinkType>
+</definitions>

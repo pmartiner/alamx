@@ -3,11 +3,6 @@ import styles from './Landing-style.module.css';
 import FitText from '@kennethormandy/react-fittext';
 import { Link } from "react-router-dom";
 
-import pina_colada from '../../assets/images/pina_colada.jpg';
-import mango from '../../assets/images/mango.jpg';
-import cafe from '../../assets/images/cafe.jpg';
-
-
 const landingView = props => {
     return(
        <main>
@@ -36,7 +31,7 @@ const landingView = props => {
                             <div className="row valign-wrapper valign-mob">
                                 <div className="center col s12 m4 l3">
                                     <Link to="/catalog">
-                                        <img src={cafe} alt="" className={`${styles["prod-explora"]} circle responsive-img`}/>
+                                        <img src={'/assets/images/cafe.jpg'} alt="" className={`${styles["prod-explora"]} circle responsive-img`}/>
                                     </Link>
                                 </div>
                                 <div className="justify col s12 m8 l9">
@@ -50,7 +45,7 @@ const landingView = props => {
                             <div className="row valign-wrapper valign-mob">
                                 <div className="center col s12 m4 l3">
                                     <Link to="/catalog">
-                                        <img src={pina_colada} alt="" className={`${styles["prod-explora"]} circle responsive-img`}/>
+                                        <img src={'/assets/images/pina_colada.jpg'} alt="" className={`${styles["prod-explora"]} circle responsive-img`}/>
                                     </Link>
                                 </div>
                                 <div className="justify col s12 m8 l9">
@@ -65,7 +60,7 @@ const landingView = props => {
                             <div className="row valign-wrapper valign-mob">
                                 <div className="center col s12 m4 l3">
                                     <Link to="/catalog">
-                                        <img src={mango} alt="" className={`${styles["prod-explora"]} circle responsive-img`}/>
+                                        <img src={'/assets/images/mango.jpg'} alt="" className={`${styles["prod-explora"]} circle responsive-img`}/>
                                     </Link>
                                 </div>
                                 <div className="justify col s12 m8 l9">

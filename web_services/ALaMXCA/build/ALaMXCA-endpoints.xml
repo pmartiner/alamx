@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<endpoints xmlns="http://xml.netbeans.org/schema/endPoints" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xml.netbeans.org/schema/endPoints endPoints.xsd">
+    <project>
+        <name>ALaMXCA</name>
+        <version>1.0</version>
+        <description>description</description>
+    </project>
+    <team>
+        <name>unknown team</name>
+        <contact>no contact provided</contact>
+    </team>
+    <endpoint>
+        <type>provider</type>
+        <endpoint-name>RestInboundPortTypeRole_myRole</endpoint-name>
+        <service-name>
+            <namespace>http://enterprise.netbeans.org/bpel/ALaMXBPEL/ALaMXBPEL</namespace>
+            <localname>Input</localname>
+        </service-name>
+        <interface-name>
+            <namespace>http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL</namespace>
+            <localname>RestInboundPortType</localname>
+        </interface-name>
+        <description>description of the service provided or consumed through this endPoint</description>
+    </endpoint>
+    <endpoint>
+        <type>consumer</type>
+        <endpoint-name>WSPedidoRole_partnerRole</endpoint-name>
+        <service-name>
+            <namespace>http://enterprise.netbeans.org/bpel/ALaMXBPEL/ALaMXBPEL</namespace>
+            <localname>WSPedido</localname>
+        </service-name>
+        <interface-name>
+            <namespace>http://ejb/</namespace>
+            <localname>WSPedido</localname>
+        </interface-name>
+        <description>description of the service provided or consumed through this endPoint</description>
+    </endpoint>
+    <endpoint>
+        <type>consumer</type>
+        <endpoint-name>WSProductoRole_partnerRole</endpoint-name>
+        <service-name>
+            <namespace>http://enterprise.netbeans.org/bpel/ALaMXBPEL/ALaMXBPEL</namespace>
+            <localname>WSProducto</localname>
+        </service-name>
+        <interface-name>
+            <namespace>http://ejb/</namespace>
+            <localname>WSProducto</localname>
+        </interface-name>
+        <description>description of the service provided or consumed through this endPoint</description>
+    </endpoint>
+    <endpoint>
+        <type>consumer</type>
+        <endpoint-name>WSUsuarioRole_partnerRole</endpoint-name>
+        <service-name>
+            <namespace>http://enterprise.netbeans.org/bpel/ALaMXBPEL/ALaMXBPEL</namespace>
+            <localname>WSUsuario</localname>
+        </service-name>
+        <interface-name>
+            <namespace>http://ejb/</namespace>
+            <localname>WSUsuario</localname>
+        </interface-name>
+        <description>description of the service provided or consumed through this endPoint</description>
+    </endpoint>
+</endpoints>

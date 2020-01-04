@@ -2,81 +2,150 @@ import React, { Component } from 'react';
 import RegisterView from './Register-view';
 import update from 'immutability-helper';
 import { Redirect } from "react-router-dom";
+import api from '../../utils/api/api';
 
 class RegisterContainer extends Component {
     state = {
         user: {
-            nombre: "",
-            apellidos: "",
-            email: "",
-            telefono: "",
-            pw: "",
-            calle: "",
-            numExterior: "",
-            numInterior: "",
-            colonia: "",
-            municipio: "",
-            cp: "",
-            ciudad: "",
-            estado: ""
+            nombres: '',
+            apellidos: '',
+            telefono: '',
+            correo: '',
+            contrasena: '',
+            calle: '',
+            num_ext: 0,
+            num_in: 0,
+            colonia: '',
+            municipio: '',
+            cp: 0,
+            ciudad: '',
+            estado: ''
         },
         registered: false,
-        hasErrors: false
+        hasErrors: false,
+        invalidData: false,
+        emailExists: false
     }
 
     handleInputChange(e, val){
-        if(this.state.hasErrors)
+        const {
+            hasErrors,
+            emailExists,
+            invalidData
+        } = this.state;
+        if(hasErrors || emailExists || invalidData)
             this.setState({
                 hasErrors: false,
+                invalidData: false,
+                emailExists: false,
                 user: update(this.state.user, {[val]: {$set: e}})
             });
-        else
+        else if (!hasErrors && !emailExists && !invalidData)
             this.setState({
                 user: update(this.state.user, {[val]: {$set: e}})
             });
     }
 
-    apiRegister = () => {
-        if(this.state.user.nombre === "" ||
-           this.state.user.apellidos === "" ||
-           this.state.user.email === "" ||
-           this.state.user.telefono === "" ||
-           this.state.user.pw === "" ||
-           this.state.user.calle === "" ||
-           this.state.user.numExterior === "" ||
-           this.state.user.colonia === "" ||
-           this.state.user.municipio === "" ||
-           this.state.user.cp === "" ||
-           this.state.user.ciudad === "" ||
-           this.state.user.estado === ""
+    isInt = (value) => {
+        let x;
+        if (isNaN(value)) {
+            return false;
+        }
+        x = parseFloat(value);
+        return (x | 0) === x;
+    }
+
+    apiRegister = (e) => {
+        e.preventDefault();
+        const {
+            nombres,
+            apellidos,
+            telefono,
+            correo,
+            contrasena,
+            calle,
+            num_ext,
+            num_in,
+            colonia,
+            municipio,
+            cp,
+            ciudad,
+            estado,
+        } = this.state.user;
+        const { 
+            hasErrors,
+            invalidData
+        } = this.state;
+
+        if( nombres === '' ||
+            apellidos === '' ||
+            telefono === '' ||
+            correo === '' ||
+            contrasena === '' ||
+            calle === '' ||
+            num_ext === 0 ||
+            colonia === '' ||
+            municipio === '' ||
+            cp === 0 ||
+            ciudad === '' ||
+            estado === ''
         )
             this.setState({
                 hasErrors: true
             })
-        if(this.state.user.nombre !== "" &&
-            this.state.user.apellidos !== "" &&
-            this.state.user.email !== "" &&
-            this.state.user.telefono !== "" &&
-            this.state.user.pw !== "" &&
-            this.state.user.calle !== "" &&
-            this.state.user.numExterior !== "" &&
-            this.state.user.colonia !== "" &&
-            this.state.user.municipio !== "" &&
-            this.state.user.cp !== "" &&
-            this.state.user.ciudad !== "" &&
-            this.state.user.estado !== "") {
-            this.setState({registered: true})
-            this.props.addUser(this.state.user);
+        else if((num_ext !== 0 ||
+                num_in !== 0 ||
+                cp !== 0) &&
+                (parseInt(num_ext) < 1 || 
+                parseInt(num_in) < 1 ||
+                parseInt(cp) < 1 ||
+                !this.isInt(num_ext) || 
+                !this.isInt(num_in) ||
+                !this.isInt(cp))
+        )
+            this.setState({
+                invalidData: true
+            })
+        else if((nombres !== '' ||
+                apellidos !== '' ||
+                telefono !== '' ||
+                correo !== '' ||
+                contrasena !== '' ||
+                calle !== '' ||
+                num_ext !== '' ||
+                colonia !== '' ||
+                municipio !== '' ||
+                cp !== '' ||
+                ciudad !== '' ||
+                estado !== '')
+                && !hasErrors
+                && !invalidData
+        ) {
+            api.registerUser(this.state.user)
+                .then(data => {
+                    if(data.altaUsuarioResponse.return.content === -1)
+                        this.setState({
+                            emailExists: true
+                        })
+                    else
+                        this.setState({
+                            registered: true
+                        })
+                })
         }
     }
 
     render() {
         if(!this.state.hasErrors && this.state.registered) {
-            return <Redirect to="/login"/> 
+            return <Redirect to="/userLogin"/> 
         }
-        console.log(this.state)
         return(
-            <RegisterView hasErrors={this.state.hasErrors} apiRegister={this.apiRegister} handleInputChange={(e, val) => {this.handleInputChange(e, val)}}/>
+            <RegisterView 
+                hasErrors={this.state.hasErrors} 
+                apiRegister={e => this.apiRegister(e)} 
+                emailExists={this.state.emailExists} 
+                invalidData={this.state.invalidData} 
+                handleInputChange={(e, val) => {this.handleInputChange(e, val)}}/>
         );
     }
 }

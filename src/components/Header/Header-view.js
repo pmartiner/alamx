@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavItem, Navbar, Icon } from 'react-materialize';
+import { Navbar, Icon } from 'react-materialize';
 import styles from './Header-style.module.css'; 
 import logo from '../../assets/images/a.png';
 import { Link } from "react-router-dom";
@@ -16,7 +16,7 @@ const headerView = props => {
                 </Link>,
                 <Link key="2_cat" to="/catalog" className="bold rifle-green-text">Catálogo</Link>,
                 <Link key="3_cart" to="/cart" className="rifle-green-text valign-wrapper">
-                    <Icon className="fullHeight inlineBlock">shopping_basket</Icon><span data-badge-caption="" className={`new badge tea-rose rifle-green-text ${styles["cart-cant"]}`}>{ props.shoppingCart.length }</span>
+                    <Icon className="fullHeight inlineBlock">shopping_basket</Icon><span data-badge-caption="" className={`new badge tea-rose rifle-green-text ${styles["cart-cant"]}`}>{ props.shoppingCart.cantidadItems }</span>
                 </Link>,
                 <a key="4_cer" className="bold rifle-green-text" href="#!" onClick={props.logout}>
                     Cerrar sesión
@@ -26,9 +26,9 @@ const headerView = props => {
         content = [
                 <Link key="1_cat_guest" to="/catalog" className="bold rifle-green-text">Catálogo</Link>,
                 <Link key="2_cart_guest" to="/cart" className="rifle-green-text valign-wrapper">
-                    <Icon className="fullHeight inlineBlock">shopping_basket</Icon><span data-badge-caption="" className={`new badge tea-rose rifle-green-text ${styles["cart-cant"]}`}>{ props.shoppingCart.length }</span>
+                    <Icon className="fullHeight inlineBlock">shopping_basket</Icon><span data-badge-caption="" className={`new badge tea-rose rifle-green-text ${styles["cart-cant"]}`}>{ props.shoppingCart.cantidadItems }</span>
                 </Link>,
-                <Link key="3_inicio_ses" to="/login" className="bold rifle-green-text">Iniciar sesión</Link>,
+                <Link key="3_inicio_ses" to="/userLogin" className="bold rifle-green-text">Iniciar sesión</Link>,
                 <Link key="4_regi" to="/register" className="bold rifle-green-text">Registrarse</Link>
             ];
 

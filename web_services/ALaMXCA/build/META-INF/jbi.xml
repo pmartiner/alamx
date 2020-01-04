@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jbi xmlns="http://java.sun.com/xml/ns/jbi" xmlns:ns1="http://j2ee.netbeans.org/wsdl/ALaMXBPEL/src/ALaMX_RESTInboundWSDL" xmlns:ns2="http://enterprise.netbeans.org/bpel/ALaMXBPEL/ALaMXBPEL" xmlns:ns3="http://ejb/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/jbi ./jbi.xsd">
+    <service-assembly>
+        <identification>
+            <name>ALaMXCA</name>
+            <description>Represents the Service Assembly of ALaMXCA</description>
+        </identification>
+        <service-unit>
+            <identification>
+                <name>ALaMXCA-ALaMXBPEL</name>
+                <description>Represents this Service Unit</description>
+            </identification>
+            <target>
+                <artifacts-zip>ALaMXBPEL.jar</artifacts-zip>
+                <component-name>sun-bpel-engine</component-name>
+            </target>
+        </service-unit>
+        <service-unit>
+            <identification>
+                <name>ALaMXCA-sun-http-binding</name>
+                <description>Represents this Service Unit</description>
+            </identification>
+            <target>
+                <artifacts-zip>sun-http-binding.jar</artifacts-zip>
+                <component-name>sun-http-binding</component-name>
+            </target>
+        </service-unit>
+        <service-unit>
+            <identification>
+                <name>ALaMXCA-sun-rest-binding</name>
+                <description>Represents this Service Unit</description>
+            </identification>
+            <target>
+                <artifacts-zip>sun-rest-binding.jar</artifacts-zip>
+                <component-name>sun-rest-binding</component-name>
+            </target>
+        </service-unit>
+        <connections>
+            <connection>
+                <consumer endpoint-name="RestInboundWSDL_InboundPort" service-name="ns1:RestInboundService"/>
+                <provider endpoint-name="RestInboundPortTypeRole_myRole" service-name="ns2:Input"/>
+            </connection>
+            <connection>
+                <consumer endpoint-name="WSUsuarioRole_partnerRole" service-name="ns2:WSUsuario"/>
+                <provider endpoint-name="WSUsuarioPort" service-name="ns3:WSUsuario"/>
+            </connection>
+            <connection>
+                <consumer endpoint-name="WSPedidoRole_partnerRole" service-name="ns2:WSPedido"/>
+                <provider endpoint-name="WSPedidoPort" service-name="ns3:WSPedido"/>
+            </connection>
+            <connection>
+                <consumer endpoint-name="WSProductoRole_partnerRole" service-name="ns2:WSProducto"/>
+                <provider endpoint-name="WSProductoPort" service-name="ns3:WSProducto"/>
+            </connection>
+        </connections>
+        <route-types xmlns="http://www.open-esb.net/xml/ns/jbi">
+            <source endpoint-name="RestInboundWSDL_InboundPort" mode="local" routing-rule="default" service-name="ns1:RestInboundService">direct</source>
+            <source endpoint-name="WSUsuarioRole_partnerRole" mode="local" routing-rule="default" service-name="ns2:WSUsuario">direct</source>
+            <source endpoint-name="WSPedidoRole_partnerRole" mode="local" routing-rule="default" service-name="ns2:WSPedido">direct</source>
+            <source endpoint-name="WSProductoRole_partnerRole" mode="local" routing-rule="default" service-name="ns2:WSProducto">direct</source>
+        </route-types>
+        <interface-mapping xmlns="http://www.open-esb.net/xml/ns/jbi">
+            <implementation>
+                <by-provider endpoint-name="RestInboundPortTypeRole_myRole" service-name="ns2:Input"/>
+                <interface name="ns1:RestInboundPortType"/>
+            </implementation>
+            <implementation>
+                <by-provider endpoint-name="WSUsuarioPort" service-name="ns3:WSUsuario"/>
+                <interface name="ns3:WSUsuario"/>
+            </implementation>
+            <implementation>
+                <by-provider endpoint-name="WSPedidoPort" service-name="ns3:WSPedido"/>
+                <interface name="ns3:WSPedido"/>
+            </implementation>
+            <implementation>
+                <by-provider endpoint-name="WSProductoPort" service-name="ns3:WSProducto"/>
+                <interface name="ns3:WSProducto"/>
+            </implementation>
+        </interface-mapping>
+    </service-assembly>
+</jbi>

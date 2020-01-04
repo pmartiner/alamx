@@ -16,13 +16,13 @@ const loginView = props => {
                             <h1 className={`center rifle-green-text ${styles["login-head"]}`}>Inicia sesión</h1>
                             <div className="row">
                                 <div className="input-field col s12">
-                                    <input required id="email" type="email" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'email')}}/>
+                                    <input required id="email" type="email" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'correo')}}/>
                                     <label htmlFor="email">Correo</label>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="input-field col s12">
-                                    <input required id="password" type="password" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'pw')}}/>
+                                    <input required id="password" type="password" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'contrasena')}}/>
                                     <label htmlFor="password">Contraseña</label>
                                 </div>
                             </div>
@@ -36,7 +36,7 @@ const loginView = props => {
                             </div>
                             <div className="row">
                                 <div className="input-field col s12 center">
-                                    <button className="waves-effect waves-light btn rifle-green" onClick={props.apiLogin}>Iniciar sesión</button>
+                                    <button className="waves-effect waves-light btn rifle-green" onClick={(e) => props.apiLogin(e)}>Iniciar sesión</button>
                                 </div>
                             </div>
                             

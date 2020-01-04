@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:9090/WSPedido/WSPedido?WSDL" uri="src/localhost_9090/WSPedido/WSPedido.wsdl"/>
+    <system systemId="http://localhost:9090/WSPedido/WSPedido?xsd=1" uri="src/localhost_9090/WSPedido/WSPedido.xsd_1.xsd"/>
+    <system systemId="http://localhost:9090/WSUsuario/WSUsuario?WSDL" uri="src/localhost_9090/WSUsuario/WSUsuario.wsdl"/>
+    <system systemId="http://localhost:9090/WSUsuario/WSUsuario?xsd=1" uri="src/localhost_9090/WSUsuario/WSUsuario.xsd_1.xsd"/>
+    <system systemId="http://localhost:9090/WSProducto/WSProducto?WSDL" uri="src/localhost_9090/WSProducto/WSProducto.wsdl"/>
+    <system systemId="http://localhost:9090/WSProducto/WSProducto?xsd=1" uri="src/localhost_9090/WSProducto/WSProducto.xsd_1.xsd"/>
+    <nextCatalog catalog="nbproject/private/retriever/catalog.xml"/>
+</catalog>
