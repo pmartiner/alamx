@@ -4,9 +4,10 @@ import { Redirect } from "react-router-dom";
 import update from 'immutability-helper';
 import api from '../../utils/api/api';
 
-const retry = require('retry');
+const pRetry = require('p-retry');
 
 class PaymentContainer extends Component {
+    _isMounted = false;
     state = {
         pagado: false,
         user: {
@@ -43,6 +44,7 @@ class PaymentContainer extends Component {
     }
 
     componentDidMount() {
+        this._isMounted = true;
         const auxPago = { ...this.state.pago };
         const user = { ...this.props.user }
         const precioTotal = this.getPrecioTotal(this.props);        
@@ -53,6 +55,10 @@ class PaymentContainer extends Component {
             pago: auxPago
         });
             
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     handleInputChange(e, val, type){
@@ -74,7 +80,6 @@ class PaymentContainer extends Component {
         }
         else if ((!hasErrors && !emailExists && !invalidData) || (!hasErrors && !invalidData && this.props.isLoggedIn)) {
             userPago[val] = e;
-            console.log(userPago);
             this.setState({
                 [userPagoKey]: userPago 
             });
@@ -94,7 +99,6 @@ class PaymentContainer extends Component {
         let precioTotal = 0;
 
         prop.shoppingCart.items.forEach(elem => precioTotal = elem.precioTotal + precioTotal);
-        console.log(precioTotal);
 
         return precioTotal;
     }
@@ -230,38 +234,37 @@ class PaymentContainer extends Component {
                                 precio: elem.precio,
                                 fecha_entrega: auxPago.fecha_entrega
                             }));
-                            const operation = retry.operation({
-                                retries: 5,
-                                factor: 3,
-                                minTimeout: 1 * 100,
-                                maxTimeout: 60 * 100,
-                                randomize: true,
-                            });
-                              
-                              
-                            pedidos.forEach((elem, index) => {
-                                return operation.attempt(async (currentAttempt) => {
-                                    console.log('sending request: ', currentAttempt, ' attempt');
-                                    try {
+                            
+                            (async () => {
+                                for (let index = 0; index < pedidos.length; index++) {
+                                    const elem = pedidos[index];
+                                    await pRetry(async (currentAttempt) => {
+                                        console.log('sending request: ', currentAttempt, ' attempt');
                                         const res = await api.newSale(elem);
                                         if(index === pedidos.length && res.enviarPedidoResponse.return.content);
                                             localStorage.removeItem('shoppingCart');
-                                            this.setState({
-                                                pedidos,
-                                                pagado: true
-                                            });
-                                        if(!res.enviarPedidoResponse.return.content)
-                                            this.setState({
-                                                pedidos: [],
-                                                pagado: false,
-                                                paymentError: true
-                                            });
-                                    } 
-                                    catch (e) {
-                                        if (operation.retry(e)) { return; }
-                                    }
-                                  });
-                            });
+                                            if(this._isMounted)
+                                                this.setState({
+                                                    pedidos,
+                                                    pagado: true
+                                                });
+                                        if(index === pedidos.length && res.enviarPedidoResponse.return.content && !res.enviarPedidoResponse.return.content)
+                                            if(this._isMounted)        
+                                                this.setState({
+                                                    pedidos: [],
+                                                    paymentError: true
+                                                });
+                                        
+                                    }, {
+                                        retries: 5,
+                                        factor: 3,
+                                        minTimeout: 1 * 100,
+                                        maxTimeout: 60 * 100,
+                                        randomize: true,
+                                    
+                                    })
+                                }
+                            })();
                         }
                     })
             }
@@ -283,7 +286,6 @@ class PaymentContainer extends Component {
                 this.setState({
                     hasErrors: true
                 })
-                console.log('tarjeta', tarjeta, cvv, ano, mes);
             }
             else if(tarjeta.length < 16 ||
                     ano.toString().length < 4 ||
@@ -294,7 +296,6 @@ class PaymentContainer extends Component {
                 })
             else if(!hasErrors && !invalidData) {
                 const { id_usuario } = this.props.user;
-                console.log(id_usuario);
                 const pedidos = this.props.shoppingCart.items.map(elem => ({
                     id_producto: elem.id,
                     id_usuario: id_usuario,
@@ -304,39 +305,38 @@ class PaymentContainer extends Component {
                     precio: elem.precio,
                     fecha_entrega: auxPago.fecha_entrega
                 }));
-                const operation = retry.operation({
-                    retries: 5,
-                    factor: 3,
-                    minTimeout: 1 * 100,
-                    maxTimeout: 60 * 100,
-                    randomize: true,
-                });
-                    
-                    
-                pedidos.forEach((elem, index) => {
-                    return operation.attempt(async (currentAttempt) => {
-                        console.log('sending request: ', currentAttempt, ' attempt');
-                        try {
+
+                (async () => {
+                    for (let index = 0; index < pedidos.length; index++) {
+                        const elem = pedidos[index];
+                        await pRetry(async (currentAttempt) => {
+                            console.log('sending request: ', currentAttempt, ' attempt');
                             const res = await api.newSale(elem);
                             if(index === pedidos.length && res.enviarPedidoResponse.return.content);
                                 localStorage.removeItem('shoppingCart');
-                                this.setState({
-                                    pedidos,
-                                    pagado: true
-                                });
-                            if(!res.enviarPedidoResponse.return.content)
-                                this.setState({
-                                    pedidos: [],
-                                    pagado: false,
-                                    paymentError: true
-                                });
-                        } 
-                        catch (e) {
-                            if (operation.retry(e)) { return; }
-                        }
-                        });
-                });
+                                if(this._isMounted)
+                                    this.setState({
+                                        pedidos,
+                                        pagado: true
+                                    });
+                            if(index === pedidos.length && res.enviarPedidoResponse.return.content && !res.enviarPedidoResponse.return.content)
+                                if(this._isMounted)        
+                                    this.setState({
+                                        pedidos: [],
+                                        paymentError: true
+                                    });
+                            
+                        }, {
+                            retries: 5,
+                            factor: 3,
+                            minTimeout: 1 * 100,
+                            maxTimeout: 60 * 100,
+                            randomize: true,
                         
+                        })
+                    }
+                })();
+                
             }
         }
 

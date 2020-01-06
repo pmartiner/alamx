@@ -16,7 +16,7 @@ import {
 
 import './App.css';
 import PaymentContainer from './components/Payment/Payment-container';
-import PayedView from './components/Payed/Payed-view';
+import PayedContainer from './components/Payed/Payed-container';
 
 
 class App extends Component {
@@ -69,6 +69,15 @@ class App extends Component {
          isLoggedIn: true 
       });
     }
+  }
+
+  emptyCart = () => {
+    this.setState({
+      shoppingCart: {
+        cantidadItems: 0,
+        items: []
+      },
+    })
   }
 
   addToCart = (prod) => {
@@ -137,7 +146,7 @@ class App extends Component {
   render() {
     let switches = [
       <Route key="home" exact path="/" render={() => <LandingContainer/>}/>,
-      <Route key="payed_g" path="/payed" render={() => <PayedView/>}/>,
+      <Route key="payed_g" path="/payed" render={() => <PayedContainer emptyCart={this.emptyCart} />}/>,
       <Route key="paym_g"  path="/payment" render={() => <PaymentContainer shoppingCart={this.state.shoppingCart} isLoggedIn={ this.state.isLoggedIn }/>}/>,
       <Route key="regi" path="/register" render={ ()=> <RegisterContainer /> }/>,
       <Route key="cata" path="/catalog" render={() => <CatalogContainer isLoggedIn={this.state.isLoggedIn} addToCart={(prod) => {this.addToCart(prod)}} />}/>,
@@ -151,7 +160,7 @@ class App extends Component {
         <Redirect key="redi" exact from="/userLogin" to="/" />,
         <Route key="homey" exact path="/" render={() => <LandingContainer/>}/>,
         <Route key="paym" path="/orders" render={() => <OrdersContainer user={this.state.user} />}/>,
-        <Route key="payed" path="/payed" render={() => <PayedView/>}/>,
+        <Route key="payed" path="/payed" render={() => <PayedContainer emptyCart={this.emptyCart} />}/>,
         <Route key="paym" path="/payment" render={() => <PaymentContainer shoppingCart={this.state.shoppingCart} user={this.state.user} isLoggedIn={ this.state.isLoggedIn }/>}/>,
         <Route key="perfi" path="/perfil" component={RegisterContainer}/>,
         <Route key="catal" path="/catalog" render={() => <CatalogContainer isLoggedIn={this.state.isLoggedIn} addToCart={(prod) => {this.addToCart(prod)}} />}/>,

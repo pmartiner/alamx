@@ -10,13 +10,19 @@ class OrdersContainer extends Component {
     }
 
     componentDidMount() {
-        api.ordersByUser(1)
+        api.ordersByUser(this.props.user.id_usuario)
             .then(data => {
                 if (this.mounted)
-                    this.setState({
-                        orders: [...data.pedidosPorUsuarioResponse.return],
-                        loading: false
-                    })
+                    if(data.pedidosPorUsuarioResponse  === undefined || typeof(data.pedidosPorUsuarioResponse ) === undefined)
+                        this.setState({
+                            orders: [],
+                            loading: false
+                        })
+                    else if(data.pedidosPorUsuarioResponse  !== undefined && typeof(data.pedidosPorUsuarioResponse ) !== undefined)
+                        this.setState({
+                            orders: [...data.pedidosPorUsuarioResponse.return],
+                            loading: false
+                        })
             });
     }
 

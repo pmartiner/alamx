@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 
 const headerView = props => {
     let content = null;
-    console.log(props.shoppingCart)
         
     if(typeof(props.user) === "object")
         content = [

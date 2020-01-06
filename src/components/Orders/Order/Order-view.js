@@ -69,7 +69,7 @@ const orderItem = props => {
                             </div>
                             <div className="col s12 ">
                                 <h6>
-                                    { calle } { numExt }{ numInt > 0 ? ' ' + numInt : '' }, Col. { colonia }, { municipio }, { ciudad }, { estado }, C.P. { cp } 
+                                    { calle } { numExt }{ numInt > 0 ? ' int. ' + numInt : '' }, Col. { colonia }, { municipio }, { ciudad }, { estado }, C.P. { cp } 
                                 </h6>
                             </div>
                             <div className="col s12">

@@ -57,7 +57,6 @@ class LoginContainer extends Component {
                     if(data.loginResponse.return.content === -1)
                         this.setState({ hasErrors: true });
                     else {
-                        console.log('login', data, data.loginResponse.return.content);
                         this.props.login(this.state.user, this.state.remember, data.loginResponse.return.content);
                     }
                         

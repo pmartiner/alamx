@@ -2,12 +2,12 @@ import React from 'react';
 import styles from './Payed-style.module.css';
 import { Link } from "react-router-dom";
 
-const payedView = props => {
+const payedView = () => {
     return(
         <main>
             <section className={`tea-rose ${styles["register-container"]}`}>
                 <div className={`center container row`}>
-                    <form className="col s12">
+                    <div className="col s12">
                         <h1 className={`dingy-dungeon-text ${styles["register-head"]}`}>¡Pagado con éxito!</h1>
                         <div className="row"></div>
                         <h3 className="white-text">Tu paquete está en camino</h3>
@@ -16,7 +16,7 @@ const payedView = props => {
                         <div>
                             <Link className="waves-effect waves-light btn-large rifle-green" to={{ pathname: '/orders'}}>Ver mis pedidos</Link>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </section>
         </main>

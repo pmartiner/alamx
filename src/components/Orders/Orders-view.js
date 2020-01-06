@@ -1,17 +1,31 @@
 import React from 'react';
 import styles from './Orders-style.module.css'; 
 import OrderItem from './Order/Order-view';
+import { Link } from "react-router-dom";
 
 const ordersView = props => {
-    const orders = props.orders.map((elem, index) => {
-        let ordersContent = <OrderItem item={elem} key={index}/>;
-
-        return (
-            <div key={ index + 1 }>
-                { ordersContent }
-            </div>
+    let orders = [];
+    if(props.orders.length === 0) {
+        orders = (
+                <div className="center col s12">
+                    <h2 className={`rifle-green-text`}>Por el momento, no tienes órdenes :(</h2>
+                    <div className="row"></div>
+                    <div>
+                        <Link className="waves-effect waves-light btn-large rifle-green" to={{ pathname: '/catalog'}}>Ir al catálogo</Link>
+                    </div>
+                </div>
         );
-    });
+    }
+    else
+        orders = props.orders.map((elem, index) => {
+            let ordersContent = <OrderItem item={elem} key={index}/>;
+
+            return (
+                <div key={ index + 1 }>
+                    { ordersContent }
+                </div>
+            );
+        });
 
     return(
        <main>

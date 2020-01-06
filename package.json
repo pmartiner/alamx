@@ -11,6 +11,7 @@
     "lodash": "^4.17.15",
     "materialize-css": "^1.0.0-rc.2",
     "memoize-one": "^5.1.1",
+    "p-retry": "^4.2.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-materialize": "^3.4.1",
