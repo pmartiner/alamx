@@ -52,7 +52,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         List<Pedido> lista;
         String queryStr;
         try {
-            queryStr = "SELECT p FROM Pedido p WHERE p.idUsuario = ?1 ORDER BY p.fechaEntrega DESC";
+            queryStr = "SELECT p FROM Pedido p WHERE p.idUsuario = ?1 ORDER BY p.fechaEntrega ASC, p.idPedido ASC";
             Query query = getEntityManager().createQuery(queryStr);
             query.setParameter(1, u);
             lista = query.getResultList();
