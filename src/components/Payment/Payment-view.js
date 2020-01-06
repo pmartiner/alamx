@@ -3,6 +3,17 @@ import styles from './Payment-style.module.css';
 import { Redirect } from "react-router-dom";
 
 const paymentView = (props) => {
+    if(props.hasErrors)
+        alert("Faltan campos por llenar.")
+    if(props.invalidData)
+        alert("Datos inválidos.")
+    if(props.emailExists)
+        alert("El correo introducido ya existe.")
+    if(props.paymentError) {
+        alert("Hubo un error al procesar el pago. Intente nuevamente más tarde. Si creó una cuenta temporal, intente iniciar sesión con ella para agilizar el pago");
+        return <Redirect to="/cart"/>
+    }
+
     let content = (
         <React.Fragment>
             <h4 className={`rifle-green-text`}>Sobre ti</h4>            
@@ -52,7 +63,7 @@ const paymentView = (props) => {
                 </div>
                 <div className="input-field col s12 m4 l4">
                     <input required id="alcaldia" type="text" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'municipio', 'user')}} />
-                    <label htmlFor="alcaldia">Municipio</label>
+                    <label htmlFor="alcaldia">Alcaldía/Municipio</label>
                 </div>
                 <div className="input-field col s12 m4 l4">
                     <input required id="cp" type="text" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'cp', 'user')}} />
@@ -90,36 +101,27 @@ const paymentView = (props) => {
         </React.Fragment>
     );
 
-    if(props.hasErrors)
-        alert("Faltan campos por llenar.")
-    if(props.invalidData)
-        alert("Datos inválidos.")
-    if(props.emailExists)
-        alert("El correo introducido ya existe.")
-    if(props.paymentError) {
-        alert("Hubo un error al procesar el pago. Intente nuevamente más tarde. Si creó una cuenta temporal, intente iniciar sesión con ella para agilizar el pago");
-        return <Redirect to="/cart"/>
-    }
-           
+    
     if(props.loggedIn)
         content = (<div className="row">
                     <div className="input-field col s12">
-                        <input required id="num_tarjeta" type="text" className="validate"  pattern="[0-9.]+" maxLength="16"/>
+                        <input required id="num_tarjeta" type="text" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'tarjeta', 'pago')}}  pattern="[0-9.]+" maxLength="16"/>
                         <label htmlFor="num_tarjeta">Número de tarjeta</label>
                     </div>
                     <div className="input-field col s4">
-                        <input required id="cvv" type="password" className="validate" maxLength="4"/>
+                        <input required id="cvv" type="password" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'cvv', 'pago')}} maxLength="3"/>
                         <label htmlFor="cvv">CVV</label>
                     </div>
                     <div className="input-field col s4">
-                        <input required id="mes" type="text" className="validate" maxLength="2"/>
+                        <input required id="mes" type="text" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'mes', 'pago')}} maxLength="2"/>
                         <label htmlFor="mes">Mes (MM)</label>
                     </div>
                     <div className="input-field col s4">
-                        <input required id="year" type="text" className="validate" maxLength="4"/>
+                        <input required id="year" type="text" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'ano', 'pago')}} maxLength="4"/>
                         <label htmlFor="year">Año (YYYY)</label>
                     </div>
-                </div>);
+                </div>
+        );
 
     return(
         <main>

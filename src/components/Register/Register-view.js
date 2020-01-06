@@ -59,7 +59,7 @@ const registerView = props => {
                             </div>
                             <div className="input-field col s12 m4 l4">
                                 <input required id="alcaldia" type="text" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'municipio')}}/>
-                                <label htmlFor="alcaldia">Municipio</label>
+                                <label htmlFor="alcaldia">Alcaldía/Municipio</label>
                             </div>
                             <div className="input-field col s12 m4 l4">
                                 <input required id="cp" type="text" className="validate" onChange={(e) => {props.handleInputChange(e.target.value, 'cp')}}/>

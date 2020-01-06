@@ -1,14 +1,9 @@
-.register-container {
-    padding-top: 15vh;
+.pedidos-container {
+    padding-top: 10vh;
     padding-bottom: 10vh;
 }
 
-.register-head {
-    font-size: calc(30px + 1vw);
-    margin: 0.3em 0;
-}
-
-.register-subhead {
-    font-size: calc(18px + 1vw);
+.pedidos-subtext {
+    font-size: calc(30px + 4vw);
     margin: 0.3em 0;
 }

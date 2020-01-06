@@ -42,51 +42,43 @@ class PaymentContainer extends Component {
         pedidos: []
     }
 
-    componentDidUpdate(prevProps){
-        console.log('componentDidUpdate()')
-        if(this.getPrecioTotal(prevProps) !== this.getPrecioTotal(this.props)){
-            this.updatePagoTotal();
-        }
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.getPrecioTotal(nextProps) !== this.state.pago.costo_total || this.state.pagado !== nextState.pagado;
-    }
-
     componentDidMount() {
-        console.log('componentDidMount()')
-        this.updatePagoTotal();
-    }
-
-    updatePagoTotal = () => {
-        let precioTotal = this.getPrecioTotal(this.props);
-        const pagoAux = {...this.state.pago};
-
-        pagoAux.costo_total = precioTotal;
+        const auxPago = { ...this.state.pago };
+        const user = { ...this.props.user }
+        const precioTotal = this.getPrecioTotal(this.props);        
+        auxPago.id_usuario = user.id_usuario;
+        if(precioTotal !== this.state.pago.costo_total)
+            auxPago.costo_total = precioTotal
         this.setState({
-            pago: pagoAux
-        })
-    }    
+            pago: auxPago
+        });
+            
+    }
 
     handleInputChange(e, val, type){
-        const userPago = type === 'user' ? this.state.user: this.state.pago;
+        const userPago = type === 'user' ? { ...this.state.user }: { ...this.state.pago };
         const userPagoKey = type === 'user' ? 'user': 'pago';
         const {
             hasErrors,
             emailExists,
             invalidData
         } = this.state;
-        if(hasErrors || emailExists || invalidData)
+        if(hasErrors || emailExists || invalidData) {
+            userPago[val] = e;
             this.setState({
                 hasErrors: false,
                 invalidData: false,
                 emailExists: false,
-                [userPagoKey]: update(userPago, {[val]: {$set: e}})
+                [userPagoKey]: userPago 
             });
-        else if (!hasErrors && !emailExists && !invalidData)
+        }
+        else if ((!hasErrors && !emailExists && !invalidData) || (!hasErrors && !invalidData && this.props.isLoggedIn)) {
+            userPago[val] = e;
+            console.log(userPago);
             this.setState({
-                [userPagoKey]: update(userPago, {[val]: {$set: e}})
+                [userPagoKey]: userPago 
             });
+        }
         if(val === 'telefono') {
             this.setState({
                 [userPagoKey]: update(userPago, {
@@ -134,7 +126,7 @@ class PaymentContainer extends Component {
         const auxPago = {...this.state.pago};
         auxPago.fecha_entrega = this.addDaysFromToday(days);
 
-        if(!this.props.isLoggedIn) {
+        if (!this.props.isLoggedIn) {
             const {
                 nombres,
                 apellidos,
@@ -272,6 +264,79 @@ class PaymentContainer extends Component {
                             });
                         }
                     })
+            }
+        }
+
+        else {
+            const { 
+                hasErrors,
+                invalidData
+            } = this.state;
+            const {
+                tarjeta,
+                cvv,
+                ano,
+                mes
+            } = this.state.pago
+            
+            if(tarjeta === '' || cvv === 0 || mes === 0 || ano === 0) {
+                this.setState({
+                    hasErrors: true
+                })
+                console.log('tarjeta', tarjeta, cvv, ano, mes);
+            }
+            else if(tarjeta.length < 16 ||
+                    ano.toString().length < 4 ||
+                    cvv.toString().length < 3 ||
+                    mes.toString().length < 2)
+                this.setState({
+                    invalidData: true
+                })
+            else if(!hasErrors && !invalidData) {
+                const { id_usuario } = this.props.user;
+                console.log(id_usuario);
+                const pedidos = this.props.shoppingCart.items.map(elem => ({
+                    id_producto: elem.id,
+                    id_usuario: id_usuario,
+                    tarjeta: auxPago.tarjeta,
+                    costo_total: elem.precioTotal,
+                    cantidad: elem.cantidad,
+                    precio: elem.precio,
+                    fecha_entrega: auxPago.fecha_entrega
+                }));
+                const operation = retry.operation({
+                    retries: 5,
+                    factor: 3,
+                    minTimeout: 1 * 100,
+                    maxTimeout: 60 * 100,
+                    randomize: true,
+                });
+                    
+                    
+                pedidos.forEach((elem, index) => {
+                    return operation.attempt(async (currentAttempt) => {
+                        console.log('sending request: ', currentAttempt, ' attempt');
+                        try {
+                            const res = await api.newSale(elem);
+                            if(index === pedidos.length && res.enviarPedidoResponse.return.content);
+                                localStorage.removeItem('shoppingCart');
+                                this.setState({
+                                    pedidos,
+                                    pagado: true
+                                });
+                            if(!res.enviarPedidoResponse.return.content)
+                                this.setState({
+                                    pedidos: [],
+                                    pagado: false,
+                                    paymentError: true
+                                });
+                        } 
+                        catch (e) {
+                            if (operation.retry(e)) { return; }
+                        }
+                        });
+                });
+                        
             }
         }
 

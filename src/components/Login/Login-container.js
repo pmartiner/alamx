@@ -8,7 +8,6 @@ class LoginContainer extends Component {
         user: {
             correo: "",
             contrasena: "",
-            id: 0
         },
         hasErrors: false,
         isEmpty: false,
@@ -51,15 +50,17 @@ class LoginContainer extends Component {
             })
         if(this.state.user.correo !== "" || this.state.user.contrasena !== "") {
             this.setState({ isEmpty: false })
-            
         }
         if(!empty) {
             api.login(this.state.user)
                 .then((data) => {
                     if(data.loginResponse.return.content === -1)
                         this.setState({ hasErrors: true });
-                    else 
-                        this.props.login(this.state.user, this.state.remember);
+                    else {
+                        console.log('login', data, data.loginResponse.return.content);
+                        this.props.login(this.state.user, this.state.remember, data.loginResponse.return.content);
+                    }
+                        
                 })
         }
         

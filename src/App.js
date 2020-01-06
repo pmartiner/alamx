@@ -6,6 +6,7 @@ import LoginContainer from './components/Login/Login-container';
 import RegisterContainer from './components/Register/Register-container';
 import CatalogContainer from './components/Catalog/Catalog-container';
 import CartContainer from './components/Cart/Cart-container';
+import OrdersContainer from './components/Orders/Orders-container';
 import {
   BrowserRouter as Router,
   Switch,
@@ -29,9 +30,15 @@ class App extends Component {
     rememberMe: false
   }
 
-  login(userLogged, remember) {
+  login(userLogged, remember, id) {
+    const userData = {
+      ...userLogged,
+      id_usuario: id
+    }
     this.setState({
-      user: userLogged,
+      user: { 
+        ...userData,
+      },
       rememberMe: remember,
       isLoggedIn: true
     })
@@ -39,7 +46,10 @@ class App extends Component {
     if(remember) {
       localStorage.setItem("isLoggedIn", remember);
       localStorage.removeItem("user");
-      localStorage.setItem("user", JSON.stringify(userLogged));
+      localStorage.setItem("user", JSON.stringify({
+        ...userLogged,
+        id_usuario: id
+      }));
     }
   }
 
@@ -54,7 +64,6 @@ class App extends Component {
   session(){
     const cachedUser = localStorage.getItem('user');
     if (cachedUser !== null) {
-      console.log('sessioned')
       this.setState({
          user: cachedUser,
          isLoggedIn: true 
@@ -132,7 +141,7 @@ class App extends Component {
       <Route key="paym_g"  path="/payment" render={() => <PaymentContainer shoppingCart={this.state.shoppingCart} isLoggedIn={ this.state.isLoggedIn }/>}/>,
       <Route key="regi" path="/register" render={ ()=> <RegisterContainer /> }/>,
       <Route key="cata" path="/catalog" render={() => <CatalogContainer isLoggedIn={this.state.isLoggedIn} addToCart={(prod) => {this.addToCart(prod)}} />}/>,
-      <Route key="logi" path="/userLogin" render={() => <LoginContainer login={ (user, remember) => {this.login(user, remember)} } />}/>,
+      <Route key="logi" path="/userLogin" render={() => <LoginContainer login={ (user, remember, id) => {this.login(user, remember, id)} } />}/>,
       <Route key="cart" render={() => <CartContainer shoppingCart={ this.state.shoppingCart } isLoggedIn={this.state.isLoggedIn} removeFromCart={(prod) => {this.removeFromCart(prod)}} addToCart={(prod) => {this.addToCart(prod)}} />}/>,
       <Route key="homeDefault" render={() => <LandingContainer/>}/>
     ]
@@ -141,6 +150,7 @@ class App extends Component {
       switches = [
         <Redirect key="redi" exact from="/userLogin" to="/" />,
         <Route key="homey" exact path="/" render={() => <LandingContainer/>}/>,
+        <Route key="paym" path="/orders" render={() => <OrdersContainer user={this.state.user} />}/>,
         <Route key="payed" path="/payed" render={() => <PayedView/>}/>,
         <Route key="paym" path="/payment" render={() => <PaymentContainer shoppingCart={this.state.shoppingCart} user={this.state.user} isLoggedIn={ this.state.isLoggedIn }/>}/>,
         <Route key="perfi" path="/perfil" component={RegisterContainer}/>,

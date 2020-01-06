@@ -104,10 +104,28 @@ html, body {
   background-color: #202c24;
 }
 
+span.small-on-mob {
+  font-size: 1.5rem;
+  margin: inherit;
+}
+
+.right-on-desk {
+  float: right;
+}
+
 @media only screen and (max-width: 933px){
   .valign-wrapper.valign-mob{
       display: block;
       margin: 5em 0;
+  }
+
+  .right-on-desk {
+    float: none !important;
+  }
+
+  span.small-on-mob {
+    font-size: 1.5rem;
+    line-height: 3rem;
   }
 }
 
