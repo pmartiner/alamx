@@ -20,7 +20,7 @@ class OrdersContainer extends Component {
                         })
                     else if(data.pedidosPorUsuarioResponse  !== undefined && typeof(data.pedidosPorUsuarioResponse ) !== undefined)
                         this.setState({
-                            orders: [...data.pedidosPorUsuarioResponse.return],
+                            orders: data.pedidosPorUsuarioResponse.return,
                             loading: false
                         })
             });

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 const ordersView = props => {
     let orders = [];
+    
     if(props.orders.length === 0) {
         orders = (
                 <div className="center col s12">
@@ -16,7 +17,7 @@ const ordersView = props => {
                 </div>
         );
     }
-    else
+    else if(Array.isArray(props.orders))
         orders = props.orders.map((elem, index) => {
             let ordersContent = <OrderItem item={elem} key={index}/>;
 
@@ -26,6 +27,12 @@ const ordersView = props => {
                 </div>
             );
         });
+    else if(!Array.isArray(props.orders))
+        orders = (
+            <div>
+                <OrderItem item={props.orders}/>;
+            </div>
+        );
 
     return(
        <main>
